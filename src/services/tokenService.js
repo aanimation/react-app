@@ -9,8 +9,10 @@ export default function TokenService() {
   const [token, setToken] = useState(getToken());
 
   const saveToken = userToken => {
-    sessionStorage.setItem('token', userToken);
-    setToken(userToken.token);
+    if (userToken !== undefined) {
+      sessionStorage.setItem('token', userToken);
+      setToken(userToken.token);
+    }
   };
 
   return {
