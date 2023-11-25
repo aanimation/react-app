@@ -16,7 +16,7 @@ export default function EditUser() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
 
-  const [validationError,setValidationError] = useState({})
+  const [validation, setValidation] = useState({})
 
   useEffect(()=>{
     fetchUser()
@@ -50,14 +50,11 @@ export default function EditUser() {
       })
       navigate("/")
     }).catch(({response})=>{
-      if(response.status===422){
-        setValidationError(response.data.errors)
-      }else{
-        Swal.fire({
-          text:response.data.message,
-          icon:"error"
-        })
-      }
+      Swal.fire({
+        icon:"error",
+        text:response.data.message ?? 'Invalid input request'
+      })
+      setValidation(response.data)
     })
   }
 
@@ -71,13 +68,13 @@ export default function EditUser() {
               <hr />
               <div className="form-wrapper">
                 {
-                  Object.keys(validationError).length > 0 && (
+                  Object.keys(validation).length > 0 && (
                     <div className="row">
                       <div className="col-12">
                         <div className="alert alert-danger">
                           <ul className="mb-0">
                             {
-                              Object.entries(validationError).map(([key, value])=>(
+                              Object.entries(validation).map(([key, value])=>(
                                 <li key={key}>{value}</li>   
                               ))
                             }

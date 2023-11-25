@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 
 export default function LoginUser({ setToken }) {
@@ -9,7 +10,7 @@ export default function LoginUser({ setToken }) {
   const [email, setEmail] = useState("admin@example.com");
   const [password, setPassword] = useState("");
 
-  const [validation, setValidation] = useState([]);
+  const [validation, setValidation] = useState({});
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -22,6 +23,10 @@ export default function LoginUser({ setToken }) {
       setToken(res.data.access_token)
       window.location.reload()
     }).catch((error) => {
+      Swal.fire({
+        icon:"warning",
+        text:error.response.data.message ?? 'Invalid input'
+      })
       setValidation(error.response.data);
     })
   };

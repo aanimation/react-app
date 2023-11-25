@@ -19,7 +19,7 @@ export default function CreateUser() {
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPasswordConfirm] = useState("")
 
-  const [validationError,setValidationError] = useState({})
+  const [validation, setValidation] = useState({})
 
   const createUser = async (e) => {
     e.preventDefault();
@@ -37,14 +37,11 @@ export default function CreateUser() {
       })
       navigate("/")
     }).catch(({response})=>{
-      if(response.status===422){
-        setValidationError(response.data.errors)
-      }else{
-        Swal.fire({
-          text:response.data.message,
-          icon:"error"
-        })
-      }
+      Swal.fire({
+        icon:"error",
+        text:response.data.message ?? 'Invalid input request'
+      })
+      setValidation(response.data)
     })
   }
 
@@ -58,13 +55,13 @@ export default function CreateUser() {
               <hr />
               <div className="form-wrapper">
                 {
-                  Object.keys(validationError).length > 0 && (
+                  Object.keys(validation).length > 0 && (
                     <div className="row">
                       <div className="col-12">
                         <div className="alert alert-danger">
                           <ul className="mb-0">
                             {
-                              Object.entries(validationError).map(([key, value])=>(
+                              Object.entries(validation).map(([key, value])=>(
                                 <li key={key}>{value}</li>   
                               ))
                             }
