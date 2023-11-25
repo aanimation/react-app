@@ -108,6 +108,9 @@ export default function EditUser() {
                   <Button variant="primary" className="mt-2" block="block" type="submit">
                     Update
                   </Button>
+                  <Button variant="light" className="mt-2" block="block" onClick={()=>navigate("/")}>
+                    Cancel
+                  </Button>
                 </Form>
               </div>
             </div>
